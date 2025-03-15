@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.43
+  version: 0.0.44
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -132,6 +132,24 @@ paths:
       responses:
         "200":
           description: OK
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /account/test:
+    put:
+      tags:
+      - Account
+      operationId: test
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
         "500":
           description: Internal Server Error
           content:
@@ -552,9 +570,6 @@ components:
       properties:
         role:
           type: string
-          enum:
-          - Participant
-          - Organizer
     SetFcmTokenInput:
       type: object
       properties:
@@ -715,9 +730,6 @@ components:
       properties:
         role:
           type: string
-          enum:
-          - Participant
-          - Organizer
     MockTokenResponse:
       required:
       - firebaseResponse
@@ -746,9 +758,6 @@ components:
       properties:
         requestedRole:
           type: string
-          enum:
-          - Participant
-          - Organizer
     AccountInfoDto:
       type: object
       properties:
@@ -775,9 +784,6 @@ components:
       properties:
         role:
           type: string
-          enum:
-          - Participant
-          - Organizer
         accountInfo:
           $ref: '#/components/schemas/AccountInfoDto'
         participantEvents:
