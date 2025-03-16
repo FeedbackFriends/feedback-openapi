@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.45
+  version: 0.0.46
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -757,6 +757,8 @@ components:
       type: object
       properties:
         requestedRole:
+          type: string
+        fcmToken:
           type: string
     AccountInfoDto:
       type: object
