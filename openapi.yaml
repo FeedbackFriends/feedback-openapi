@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.47
+  version: 0.0.48
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -636,10 +636,10 @@ components:
       - durationInMinutes
       - feedbackSubmited
       - id
-      - newlyJoined
       - ownerInfo
       - pinCode
       - questions
+      - recentlyJoined
       - title
       type: object
       properties:
@@ -668,7 +668,7 @@ components:
             $ref: '#/components/schemas/ParticipantQuestionDto'
         feedbackSubmited:
           type: boolean
-        newlyJoined:
+        recentlyJoined:
           type: boolean
     ParticipantQuestionDto:
       required:
