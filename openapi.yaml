@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.50
+  version: 0.0.51
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -60,7 +60,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /event/resetNewFeedback/{eventId}:
+  /event/reset-new-feedback/{eventId}:
     put:
       tags:
       - Events
@@ -73,6 +73,26 @@ paths:
         schema:
           type: string
           format: uuid
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /admin/send-mock-notification:
+    put:
+      tags:
+      - Admin
+      operationId: sendNotification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendNotificationInput'
+        required: true
       responses:
         "200":
           description: OK
@@ -138,24 +158,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /account/test:
-    put:
-      tags:
-      - Account
-      operationId: test
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiError'
   /account/role:
     put:
       tags:
@@ -176,7 +178,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /account/fcmToken:
+  /account/fcm-token:
     put:
       tags:
       - Account
@@ -292,7 +294,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /admin/mockIdToken:
+  /admin/mock-id-token:
     post:
       tags:
       - Admin
@@ -309,7 +311,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MockTokenResponse'
+                $ref: '#/components/schemas/MockTokenDto'
         "500":
           description: Internal Server Error
           content:
@@ -554,6 +556,19 @@ components:
         veryHappyCount:
           type: integer
           format: int32
+    SendNotificationInput:
+      required:
+      - body
+      - fcmToken
+      - title
+      type: object
+      properties:
+        fcmToken:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
     ModifyAccountInput:
       type: object
       properties:
@@ -733,7 +748,7 @@ components:
       properties:
         role:
           type: string
-    MockTokenResponse:
+    MockTokenDto:
       required:
       - firebaseResponse
       - token
