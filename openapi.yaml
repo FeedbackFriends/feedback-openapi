@@ -336,7 +336,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /feedback:
+  /feedback/new:
     get:
       tags:
       - Feedback
