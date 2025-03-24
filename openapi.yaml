@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.59
+  version: 0.0.60
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -336,6 +336,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
+  /feedback:
+    get:
+      tags:
+      - Feedback
+      operationId: getNewFeedback
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NewFeedbackDto'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
 components:
   schemas:
     EventInput:
@@ -382,8 +402,8 @@ components:
       required:
       - feedbackType
       - id
-      - isNew
       - questionId
+      - seenByManager
       type: object
       properties:
         id:
@@ -428,7 +448,7 @@ components:
           format: uuid
         participantId:
           type: string
-        isNew:
+        seenByManager:
           type: boolean
     FeedbackSummaryDto:
       required:
@@ -791,29 +811,12 @@ components:
     ManagerDataDto:
       required:
       - managerEvents
-      - newFeedback
       type: object
       properties:
         managerEvents:
           type: array
           items:
             $ref: '#/components/schemas/ManagerEventDto'
-        newFeedback:
-          type: array
-          items:
-            $ref: '#/components/schemas/NewFeedback'
-    NewFeedback:
-      required:
-      - eventId
-      - total
-      type: object
-      properties:
-        eventId:
-          type: string
-          format: uuid
-        total:
-          type: integer
-          format: int32
     SessionDto:
       required:
       - accountInfo
@@ -830,6 +833,17 @@ components:
             $ref: '#/components/schemas/ParticipantEventDto'
         managerData:
           $ref: '#/components/schemas/ManagerDataDto'
+    NewFeedbackDto:
+      required:
+      - event
+      - newFeedback
+      type: object
+      properties:
+        event:
+          $ref: '#/components/schemas/ManagerEventDto'
+        newFeedback:
+          type: integer
+          format: int32
     ApiError:
       properties:
         timestamp:
