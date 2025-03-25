@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.60
+  version: 0.0.61
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -336,20 +336,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /feedback/new:
+  /session/real-time-updates:
     get:
       tags:
-      - Feedback
-      operationId: getNewFeedback
+      - Session
+      operationId: getUpdatedSession
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/NewFeedbackDto'
+                $ref: '#/components/schemas/UpdatedSessionDto'
         "500":
           description: Internal Server Error
           content:
@@ -765,9 +763,13 @@ components:
           type: string
           format: date-time
     MockIdTokenRequestDto:
+      required:
+      - id
       type: object
       properties:
         role:
+          type: string
+        id:
           type: string
     MockTokenDto:
       required:
@@ -808,8 +810,48 @@ components:
           type: string
         phoneNumber:
           type: string
+    ActivityDto:
+      required:
+      - items
+      - unseenTotal
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityItem'
+        unseenTotal:
+          type: integer
+          format: int32
+    ActivityItem:
+      required:
+      - date
+      - eventId
+      - eventTitle
+      - id
+      - newFeedbackCount
+      - seenBefore
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date-time
+        eventTitle:
+          type: string
+        eventId:
+          type: string
+          format: uuid
+        newFeedbackCount:
+          type: integer
+          format: int32
+        seenBefore:
+          type: boolean
     ManagerDataDto:
       required:
+      - activity
       - managerEvents
       type: object
       properties:
@@ -817,6 +859,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ManagerEventDto'
+        activity:
+          $ref: '#/components/schemas/ActivityDto'
     SessionDto:
       required:
       - accountInfo
@@ -833,17 +877,18 @@ components:
             $ref: '#/components/schemas/ParticipantEventDto'
         managerData:
           $ref: '#/components/schemas/ManagerDataDto'
-    NewFeedbackDto:
+    UpdatedSessionDto:
       required:
-      - event
-      - newFeedback
+      - activity
+      - events
       type: object
       properties:
-        event:
-          $ref: '#/components/schemas/ManagerEventDto'
-        newFeedback:
-          type: integer
-          format: int32
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagerEventDto'
+        activity:
+          $ref: '#/components/schemas/ActivityDto'
     ApiError:
       properties:
         timestamp:
