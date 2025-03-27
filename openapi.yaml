@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.68
+  version: 0.0.69
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -410,6 +410,30 @@ components:
           - ThumpsUpThumpsDown
           - Opinion
           - OneToTen
+    FeedbackBarDto:
+      required:
+      - happyPercentage
+      - sadPercentage
+      - totalFeedback
+      - veryHappyPercentage
+      - verySadPercentage
+      type: object
+      properties:
+        totalFeedback:
+          type: integer
+          format: int32
+        verySadPercentage:
+          type: number
+          format: double
+        sadPercentage:
+          type: number
+          format: double
+        happyPercentage:
+          type: number
+          format: double
+        veryHappyPercentage:
+          type: number
+          format: double
     FeedbackEntity:
       required:
       - feedbackType
@@ -462,30 +486,6 @@ components:
           type: string
         seenByManager:
           type: boolean
-    FeedbackSummaryDto:
-      required:
-      - happyPercentage
-      - sadPercentage
-      - totalFeedback
-      - veryHappyPercentage
-      - verySadPercentage
-      type: object
-      properties:
-        totalFeedback:
-          type: integer
-          format: int32
-        verySadPercentage:
-          type: number
-          format: double
-        sadPercentage:
-          type: number
-          format: double
-        happyPercentage:
-          type: number
-          format: double
-        veryHappyPercentage:
-          type: number
-          format: double
     ManagerEventDto:
       required:
       - date
@@ -516,8 +516,8 @@ components:
           type: string
         ownerInfo:
           $ref: '#/components/schemas/OwnerInfoDto'
-        feedbackSummary:
-          $ref: '#/components/schemas/FeedbackSummaryDto'
+        feedbackBar:
+          $ref: '#/components/schemas/FeedbackBarDto'
         questions:
           type: array
           items:
@@ -527,9 +527,9 @@ components:
           format: int32
     ManagerQuestion:
       required:
+      - feedback
       - feedbackType
       - id
-      - newFeedbackForQuestion
       - questionText
       type: object
       properties:
@@ -552,9 +552,6 @@ components:
             $ref: '#/components/schemas/FeedbackEntity'
         feedbackSummary:
           $ref: '#/components/schemas/QuestionFeedbackSummary'
-        newFeedbackForQuestion:
-          type: integer
-          format: int32
     OwnerInfoDto:
       type: object
       properties:
@@ -566,16 +563,16 @@ components:
           type: string
     QuestionFeedbackSummary:
       required:
+      - commentsCount
+      - feedbackBar
       - happyCount
       - sadCount
-      - totalFeedback
       - veryHappyCount
       - verySadCount
       type: object
       properties:
-        totalFeedback:
-          type: integer
-          format: int32
+        feedbackBar:
+          $ref: '#/components/schemas/FeedbackBarDto'
         verySadCount:
           type: integer
           format: int32
@@ -586,6 +583,9 @@ components:
           type: integer
           format: int32
         veryHappyCount:
+          type: integer
+          format: int32
+        commentsCount:
           type: integer
           format: int32
     SendNotificationInput:
