@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.73
+  version: 0.0.74
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -415,6 +415,7 @@ components:
       - commentsCount
       - happyCount
       - sadCount
+      - uniqueParticipantFeedback
       - veryHappyCount
       - verySadCount
       type: object
@@ -432,6 +433,9 @@ components:
           type: integer
           format: int32
         commentsCount:
+          type: integer
+          format: int32
+        uniqueParticipantFeedback:
           type: integer
           format: int32
     FeedbackEntity:
@@ -490,14 +494,10 @@ components:
       required:
       - happyPercentage
       - sadPercentage
-      - uniqueParticipantFeedback
       - veryHappyPercentage
       - verySadPercentage
       type: object
       properties:
-        uniqueParticipantFeedback:
-          type: integer
-          format: int32
         verySadPercentage:
           type: number
           format: double
