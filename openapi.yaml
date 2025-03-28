@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.72
+  version: 0.0.73
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -490,12 +490,12 @@ components:
       required:
       - happyPercentage
       - sadPercentage
-      - totalFeedback
+      - uniqueParticipantFeedback
       - veryHappyPercentage
       - verySadPercentage
       type: object
       properties:
-        totalFeedback:
+        uniqueParticipantFeedback:
           type: integer
           format: int32
         verySadPercentage:
@@ -510,6 +510,20 @@ components:
         veryHappyPercentage:
           type: number
           format: double
+    FeedbackSummaryDto:
+      required:
+      - countStats
+      - segmentationStats
+      - unseenCount
+      type: object
+      properties:
+        segmentationStats:
+          $ref: '#/components/schemas/FeedbackSegmentationStatsDto'
+        countStats:
+          $ref: '#/components/schemas/FeedbackCountStatsDto'
+        unseenCount:
+          type: integer
+          format: int32
     ManagerEventDto:
       required:
       - date
@@ -518,7 +532,6 @@ components:
       - ownerInfo
       - questions
       - title
-      - unseenFeedback
       type: object
       properties:
         id:
@@ -540,15 +553,12 @@ components:
           type: string
         ownerInfo:
           $ref: '#/components/schemas/OwnerInfoDto'
-        feedbackSegmentationStats:
-          $ref: '#/components/schemas/FeedbackSegmentationStatsDto'
+        feedbackSummary:
+          $ref: '#/components/schemas/FeedbackSummaryDto'
         questions:
           type: array
           items:
             $ref: '#/components/schemas/ManagerQuestion'
-        unseenFeedback:
-          type: integer
-          format: int32
     ManagerQuestion:
       required:
       - feedback
@@ -574,8 +584,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FeedbackEntity'
-        questionFeedbackSummary:
-          $ref: '#/components/schemas/QuestionFeedbackSummaryDto'
+        feedbackSummary:
+          $ref: '#/components/schemas/FeedbackSummaryDto'
     OwnerInfoDto:
       type: object
       properties:
@@ -585,16 +595,6 @@ components:
           type: string
         phoneNumber:
           type: string
-    QuestionFeedbackSummaryDto:
-      required:
-      - feedbackCountStats
-      - feedbackSegmentationStats
-      type: object
-      properties:
-        feedbackSegmentationStats:
-          $ref: '#/components/schemas/FeedbackSegmentationStatsDto'
-        feedbackCountStats:
-          $ref: '#/components/schemas/FeedbackCountStatsDto'
     SendNotificationInput:
       required:
       - fcmToken
