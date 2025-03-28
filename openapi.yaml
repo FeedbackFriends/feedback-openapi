@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.71
+  version: 0.0.72
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -515,10 +515,10 @@ components:
       - date
       - durationInMinutes
       - id
-      - newFeedbackForEvent
       - ownerInfo
       - questions
       - title
+      - unseenFeedback
       type: object
       properties:
         id:
@@ -546,7 +546,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ManagerQuestion'
-        newFeedbackForEvent:
+        unseenFeedback:
           type: integer
           format: int32
     ManagerQuestion:
