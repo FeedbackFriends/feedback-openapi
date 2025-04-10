@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.84
+  version: 0.0.85
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -892,9 +892,9 @@ components:
             $ref: '#/components/schemas/RecentlyUsedQuestions'
     RecentlyUsedQuestions:
       required:
-      - createdAt
       - feedbackType
       - questionText
+      - updatedAt
       type: object
       properties:
         questionText:
@@ -907,7 +907,7 @@ components:
           - ThumpsUpThumpsDown
           - Opinion
           - OneToTen
-        createdAt:
+        updatedAt:
           type: string
           format: date-time
     SessionDto:
