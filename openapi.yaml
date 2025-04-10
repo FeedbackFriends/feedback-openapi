@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.86
+  version: 0.0.87
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -937,6 +937,10 @@ components:
             $ref: '#/components/schemas/ManagerEventDto'
         activity:
           $ref: '#/components/schemas/ActivityDto'
+        recentlyUsedQuestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecentlyUsedQuestions'
     ApiError:
       properties:
         timestamp:
