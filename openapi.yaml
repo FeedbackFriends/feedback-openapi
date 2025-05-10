@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
   title: Feedback API
-  description: API documentation for the Feedback service
-  version: 88-30aa3e8
+  description: API documentation for Lets Grow application.
+  version: 89-8261306
 servers:
 - url: http://localhost:8080
   description: Generated server url
