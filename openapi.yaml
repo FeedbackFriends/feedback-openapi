@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.91
+  version: 0.0.92
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -177,16 +177,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /account/fcm-token:
+  /account/logout:
     put:
       tags:
       - Account
-      operationId: updateFcmToken
+      operationId: logout
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetFcmTokenInput'
+              $ref: '#/components/schemas/LogoutInput'
+        required: true
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /account/fcm-token:
+    put:
+      tags:
+      - Account
+      operationId: linkFCMTokenToAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkFCMTokenToAccountInput'
         required: true
       responses:
         "200":
@@ -660,7 +680,16 @@ components:
       properties:
         role:
           type: string
-    SetFcmTokenInput:
+    LogoutInput:
+      required:
+      - fcmToken
+      type: object
+      properties:
+        fcmToken:
+          type: string
+    LinkFCMTokenToAccountInput:
+      required:
+      - fcmToken
       type: object
       properties:
         fcmToken:
