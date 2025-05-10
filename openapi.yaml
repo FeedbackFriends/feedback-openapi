@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.92
+  version: 0.0.93
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -177,26 +177,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /account/logout:
-    put:
-      tags:
-      - Account
-      operationId: logout
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LogoutInput'
-        required: true
-      responses:
-        "200":
-          description: OK
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiError'
   /account/fcm-token:
     put:
       tags:
@@ -331,6 +311,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MockTokenDto'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /account/logout:
+    post:
+      tags:
+      - Account
+      operationId: logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutInput'
+        required: true
+      responses:
+        "200":
+          description: OK
         "500":
           description: Internal Server Error
           content:
@@ -680,13 +680,6 @@ components:
       properties:
         role:
           type: string
-    LogoutInput:
-      required:
-      - fcmToken
-      type: object
-      properties:
-        fcmToken:
-          type: string
     LinkFCMTokenToAccountInput:
       required:
       - fcmToken
@@ -967,6 +960,13 @@ components:
             $ref: '#/components/schemas/ParticipantEventDto'
         managerData:
           $ref: '#/components/schemas/ManagerDataDto'
+    LogoutInput:
+      required:
+      - fcmToken
+      type: object
+      properties:
+        fcmToken:
+          type: string
     UpdatedSessionDto:
       required:
       - activity
