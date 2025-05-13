@@ -4,8 +4,8 @@ info:
   description: |-
     API documentation for Lets Grow application.
 
-    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/559e58d)
-  version: 99-559e58d
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/72d32c5)
+  version: 100-72d32c5
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -376,7 +376,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SessionDto'
+                $ref: '#/components/schemas/UpdatedSessionResponse'
         "500":
           description: Internal Server Error
           content:
@@ -977,6 +977,11 @@ components:
       properties:
         fcmToken:
           type: string
+    UpdatedSessionResponse:
+      type: object
+      properties:
+        session:
+          $ref: '#/components/schemas/SessionDto'
     ApiError:
       properties:
         timestamp:
