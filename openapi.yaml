@@ -4,8 +4,8 @@ info:
   description: |-
     API documentation for Lets Grow application.
 
-    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/a8a5bae)
-  version: 97-a8a5bae
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/559e58d)
+  version: 99-559e58d
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -358,18 +358,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /session/real-time-updates:
+  /session/session-update/{feedbackSessionHash}:
     get:
       tags:
       - Session
       operationId: getUpdatedSession
+      parameters:
+      - name: feedbackSessionHash
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdatedSessionDto'
+                $ref: '#/components/schemas/SessionDto'
         "500":
           description: Internal Server Error
           content:
@@ -970,17 +977,6 @@ components:
       properties:
         fcmToken:
           type: string
-    UpdatedSessionDto:
-      required:
-      - activity
-      type: object
-      properties:
-        updatedManagerEvents:
-          type: array
-          items:
-            $ref: '#/components/schemas/ManagerEventDto'
-        activity:
-          $ref: '#/components/schemas/ActivityDto'
     ApiError:
       properties:
         timestamp:
