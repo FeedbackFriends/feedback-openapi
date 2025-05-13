@@ -4,8 +4,8 @@ info:
   description: |-
     API documentation for Lets Grow application.
 
-    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/72d32c5)
-  version: 100-72d32c5
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/00e4d28)
+  version: 101-00e4d28
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -940,6 +940,7 @@ components:
     ManagerDataDto:
       required:
       - activity
+      - feedbackSessionHash
       - managerEvents
       - recentlyUsedQuestions
       type: object
@@ -954,6 +955,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RecentlyUsedQuestions'
+        feedbackSessionHash:
+          type: string
+          format: uuid
     SessionDto:
       required:
       - accountInfo
